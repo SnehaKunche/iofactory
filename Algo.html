@@ -1,0 +1,99 @@
+<!Doctype>
+<html>
+	<head>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		<script>
+			var et = 1500,ep=1000,ec=3000;
+			var t =5,p=4,c=10;
+			
+			function getCost(n,a=[0,0,0],type,etype){
+				if(n < type) return a;
+				return [(n-type),(a[1]+1),(a[1]==0 ? 0 : n > type ? (type * etype) + a[2]: a[2])];
+			}
+			function processTask(n,type,etype){
+				let r;
+				while(n>0){
+					r = getCost(n,r,type,etype);
+					console.log(n,type,r);
+					n=r[0];
+					if(n < type || n==0) return [n,((n * r[1] * etype) + r[2]),r[1]];
+				}
+			}
+			function readData(){
+				var n = document.getElementById('inputData').value;
+				let rt = processTask(n,t,et);
+				let rp = (processTask(n,p,ep));
+				let rc = (processTask(n,c,ec));
+				
+				console.log(rt[1],rp[1],rc[1]);
+				
+				var str = "";
+				if(rt[1]===rp[1] && rt[1]===rc[1]){
+					str+="<h6>Earnings: "+rt[1]+"<h6>";
+					str+="<h6>Solutions<h6>";
+					str+="<p>1. T: "+rt[2]+" P:0 C:0<p>";
+					str+="<p>2. T:0 P: "+rp[2]+" C:0<p>";
+					str+="<p>3. T:0 P:0 C: "+rc[2]+"<p>";
+					console.log(1);
+				} else if(rc[1] > rt[1] && rc[1] > rp[1]){
+				console.log(5);
+					str+="<h6>Earnings: "+rc[1]+"<h6>";
+					str+="<h6>Solutions<h6>";
+					str+="<p>1. T:0 P:0 C: "+rc[2]+"<p><br/>";
+				}  else if(rp[1] > rc[1] && rp[1] > rt[1]){
+				console.log(7);
+					str+="<h6>Earnings: "+rp[1]+"<h6>";
+					str+="<h6>Solutions<h6>";
+					str+="<p>1. T:0 P: "+rp[2]+" C:0<p><br/>";
+				}  else if(rt[1] > rc[1] && rt[1] > rp[1]){
+				console.log(3);
+					str+="<h6>Earnings: "+rt[1]+"<h6>";
+					str+="<h6>Solutions<h6>";
+					str+="<p>1. T: "+rt[2]+" P:0 C:0<p><br/>";
+				} else if(rt[1]===rp[1]){
+					console.log(2);
+					str+="<h6>Earnings: "+rt[1]+"<h6><br/>";
+					str+="<h6>Solutions<h6><br/>";
+					str+="<p>1. T: "+rt[2]+" P:0 C:0<p>";
+					str+="<p>2. T:0 P: "+rp[2]+" C:0<p>";
+				}  else if(rc[1]==rp[1]){
+				console.log(4);
+					str+="<h6>Earnings: "+rc[1]+"<h6>";
+					str+="<h6>Solutions<h6>";
+					str+="<p>1. T:0 P: "+rp[2]+" C:0<p>";
+					str+="<p>2. T:0 P:0 C: "+rc[2]+"<p>";
+				}  else if(rt[1]==rc[1]){
+				console.log(6);
+					str+="<h6>Earnings: "+rt[1]+"<h6><br/>";
+					str+="<h6>Solutions<h6>";
+					str+="<p>1. T: "+rt[2]+" P:0 C:0<p>";
+					str+="<p>2. T:0 P:0 C: "+rc[2]+"<p><br/>";
+				} 
+				document.getElementById("Solution").innerHTML = "";
+				document.getElementById("Solution").innerHTML = str;
+				
+			}
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-2">
+					
+				</div>
+				<div class="col-8">
+					<label for="inputData">Enter Input in array format</label>
+					<input id="inputData" type="text" class="form-control" placeholder="n"/>
+					<button class="btn btn-primary mt-2" onClick="readData()">Generate Storage</button>
+					<div id="Solution" class="mt-4">
+						
+					</div>
+				</div>
+				<div class="col-2">
+					
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
